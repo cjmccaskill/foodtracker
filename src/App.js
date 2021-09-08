@@ -14,7 +14,7 @@ function App(props) {
   const nullPost = {
     image: "",
     title: "",
-    quantity: "",
+    servings: "",
     calories: "",
   };
   // State to handle changes
@@ -25,6 +25,41 @@ function App(props) {
     const response = await fetch(url);
     const data = await response.json();
     setPosts(data);
+  };
+
+  const addFood = async (trackFood) => {
+    await fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(trackFood),
+    });
+    getPosts();
+  };
+
+  const getTargetPost = (post) => {
+    setTargetPost(post);
+    props.history.push("/edit");
+  };
+
+  const updatePost = async (post) => {
+    await fetch(url + post.id + "/", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(),
+    });
+    getPosts();
+  };
+
+  const deletePost = async (post) => {
+    await fetch(url + post.id + "/", {
+      method: "delete",
+    });
+    getPosts();
+    props.history.push("/");
   };
 
   useEffect(() => {
@@ -46,16 +81,35 @@ function App(props) {
         <Route
           path="/post/:id"
           render={(routerprops) => (
-            <SinglePost {...routerprops} posts={posts} />
+            <SinglePost
+              {...routerprops}
+              posts={posts}
+              editPost={getTargetPost}
+              deletePost={deletePost}
+            />
           )}
         />
         <Route
           path="/new"
-          render={(routerprops) => <Form {...routerprops} />}
+          render={(routerprops) => (
+            <Form
+              {...routerprops}
+              initialPost={nullPost}
+              handleSubmit={addFood}
+              buttonLabel="Track Food"
+            />
+          )}
         />
         <Route
           path="/edit"
-          render={(routerprops) => <Form {...routerprops} />}
+          render={(routerprops) => (
+            <Form
+              {...routerprops}
+              initialPost={targetPost}
+              handleSubmit={updatePost}
+              buttonLabel="Update Tracker"
+            />
+          )}
         />
       </Switch>
     </div>

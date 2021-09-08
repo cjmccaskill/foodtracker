@@ -6,9 +6,10 @@ const Post = ({ post }) => {
     <div>
       <Link to={`/post/${post.id}`}>
         <h3>{post.title}</h3>
+        <img src={post.image} alt={post.title} />
       </Link>
-      <p>{post.quantity}</p>
-      <p>{post.calories}</p>
+      <p>Servings: {post.servings}</p>
+      <p>Calories: {post.calories}</p>
     </div>
   );
 };
