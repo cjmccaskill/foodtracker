@@ -4,7 +4,7 @@ import SinglePost from "./pages/SinglePost";
 import Form from "./pages/Form";
 import Login from "./pages/Login";
 import TrackButton from "./components/TrackButton";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
 function App(props) {
