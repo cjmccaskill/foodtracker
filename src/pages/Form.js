@@ -18,25 +18,28 @@ const Form = ({ initialPost, handleSubmit, buttonLabel, history }) => {
         type="text"
         onChange={handleChange}
         value={formData.title}
+        placeholder="Title"
         name="title"
       />
       <input
-        type="image"
-        alt={formData.title}
+        type="text"
         onChange={handleChange}
         value={formData.image}
+        placeholder="Add image url"
         name="image"
       />
       <input
         type="text"
         onChange={handleChange}
         value={formData.servings}
+        placeholder="Servings"
         name="servings"
       />
       <input
         type="text"
         onChange={handleChange}
         value={formData.calories}
+        placeholder="Calories"
         name="calories"
       />
       <input type="submit" value={buttonLabel} />
