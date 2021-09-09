@@ -8,8 +8,10 @@ const Post = ({ post }) => {
         <h3>{post.title}</h3>
         <img src={post.image} alt={post.title} />
       </Link>
-      <p>Servings: {post.servings}</p>
-      <p>Calories: {post.calories}</p>
+      <div className="post-details">
+        <p>Servings: {post.servings}</p>
+        <p>Calories: {post.calories}</p>
+      </div>
     </div>
   );
 };

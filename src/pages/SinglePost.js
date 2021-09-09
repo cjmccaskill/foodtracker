@@ -9,8 +9,10 @@ const SinglePost = ({ posts, match, editPost, deletePost }) => {
     <div>
       <h3>{post.title}</h3>
       <img src={post.image} alt={post.title} />
-      <p>Servings: {post.servings}</p>
-      <p>Calories: {post.calories}</p>
+      <div className='post-details'>
+        <p>Servings: {post.servings}</p>
+        <p>Calories: {post.calories}</p>
+      </div>
       <button onClick={() => editPost(post)}>Edit</button>
       <button onClick={() => deletePost(post)}>Delete</button>
       <Link to="/allposts">

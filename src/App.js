@@ -55,6 +55,7 @@ function App(props) {
       method: "post",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token.access}`,
       },
       body: JSON.stringify(trackFood),
     });
@@ -71,6 +72,7 @@ function App(props) {
       method: "put",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token.access}`,
       },
       body: JSON.stringify(),
     });
@@ -80,6 +82,9 @@ function App(props) {
   const deletePost = async (post) => {
     await fetch(url + "tracker/" + post.id + "/", {
       method: "delete",
+      headers: {
+        Authorization: `Bearer ${token.access}`,
+      },
     });
     getPosts();
     props.history.push("/allposts");

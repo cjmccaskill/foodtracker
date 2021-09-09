@@ -43,7 +43,7 @@ const Form = ({ initialPost, handleSubmit, buttonLabel, history }) => {
         placeholder="Calories"
         name="calories"
       />
-      <input type="submit" value={buttonLabel} />
+      <input className='submitbtn' type="submit" value={buttonLabel} />
       <Link to="/allposts">
         <button>Go Back</button>
       </Link>
