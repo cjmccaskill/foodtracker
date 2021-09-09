@@ -2,12 +2,30 @@ import "./App.css";
 import AllPosts from "./pages/AllPosts";
 import SinglePost from "./pages/SinglePost";
 import Form from "./pages/Form";
+import Login from "./pages/Login";
+import TrackButton from "./components/TrackButton";
 import { Route, Switch, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
 function App(props) {
   // API url
-  const url = "https://cm-foodtracker-api.herokuapp.com/tracker/";
+  const url = "https://cm-foodtracker-api.herokuapp.com/";
+
+  // Auth state
+  const [token, setToken] = useState("");
+
+  const getToken = async (un, pw) => {
+    const response = await fetch(url + "api/token/", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: un, password: pw }),
+    });
+    const data = await response.json();
+    setToken(data);
+  };
+
   // Initial State
   const [posts, setPosts] = useState([]);
   // New post variable
@@ -22,13 +40,18 @@ function App(props) {
 
   // Functions for populating the data from API
   const getPosts = async () => {
-    const response = await fetch(url);
+    const response = await fetch(url + "tracker/", {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${token.access}`,
+      },
+    });
     const data = await response.json();
     setPosts(data);
   };
 
   const addFood = async (trackFood) => {
-    await fetch(url, {
+    await fetch(url + "tracker/", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +67,7 @@ function App(props) {
   };
 
   const updatePost = async (post) => {
-    await fetch(url + post.id + "/", {
+    await fetch(url + 'tracker/"' + post.id + "/", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -55,28 +78,39 @@ function App(props) {
   };
 
   const deletePost = async (post) => {
-    await fetch(url + post.id + "/", {
+    await fetch(url + "tracker/" + post.id + "/", {
       method: "delete",
     });
     getPosts();
-    props.history.push("/");
+    props.history.push("/allposts");
   };
 
   useEffect(() => {
-    getPosts();
-  }, []);
+    if (token) {
+      getPosts();
+      props.history.push("/allposts");
+    }
+  }, [token]);
 
   return (
     <div className="App">
       <h1>Food Tracker</h1>
-      <Link to="/new">
-        <button>Track Food</button>
-      </Link>
       <Switch>
         <Route
           exact
           path="/"
-          render={(routerprops) => <AllPosts {...routerprops} posts={posts} />}
+          render={(routerprops) => (
+            <Login {...routerprops} getToken={getToken} />
+          )}
+        />
+        <Route
+          path="/allposts"
+          render={(routerprops) => (
+            <>
+              <TrackButton />
+              <AllPosts {...routerprops} posts={posts} token={token} />
+            </>
+          )}
         />
         <Route
           path="/post/:id"

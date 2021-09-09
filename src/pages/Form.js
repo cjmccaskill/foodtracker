@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Form = ({ initialPost, handleSubmit, buttonLabel, history }) => {
   const [formData, setFormData] = useState(initialPost);
@@ -10,7 +11,7 @@ const Form = ({ initialPost, handleSubmit, buttonLabel, history }) => {
   const handleSubmission = (event) => {
     event.preventDefault();
     handleSubmit(formData);
-    history.push("/");
+    history.push("/allposts");
   };
   return (
     <form onSubmit={handleSubmission}>
@@ -43,6 +44,9 @@ const Form = ({ initialPost, handleSubmit, buttonLabel, history }) => {
         name="calories"
       />
       <input type="submit" value={buttonLabel} />
+      <Link to="/allposts">
+        <button>Go Back</button>
+      </Link>
     </form>
   );
 };
